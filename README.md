@@ -43,7 +43,7 @@ $ cd svpn-login
 
 **SessionID** is a unique ID that you need to extract everytime you connect. Please see below on how to extgract session ID. 
 
-If you get the following you are connected and you can put the process into background : 
+If you get the following line,  you can put the process into background : 
 
 ```bash 
 Getting params...
