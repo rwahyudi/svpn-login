@@ -55,7 +55,7 @@ You can find the session ID by using web browser and log into : https://connect1
 
 Once logged in,  you can extract the session ID. 
 
-In Chrome you can open  Developer Tools ( CTRL + SHIFT + I ) , and typed in the following in the Console
+In Chrome you can open  Developer Tools ( CTRL + SHIFT + I ) , go to Console tab , and paste the following line:
 
 ```javascript
 document.cookie.match(/MRHSession=(.*?); /)[1]
