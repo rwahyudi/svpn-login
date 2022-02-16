@@ -16,8 +16,6 @@ Also keep in mind that VPN Linux is not officially supported.
 
 The script requires [`svpn`](https://support.f5.com/csp/article/K14947#SVPN), which is a component of the BIG-IP Edge Client. If you already have the BIG-IP Edge Client installed, then you already have `svpn`.
 
-Otherwise, if you are on macOS, you can get it by going to https://[your-VPN-server]/ in a web browser, clicking on "Edge Client - macOS", unzipping the file you downloaded, and running the installer that you unzipped.
-
 If you are on Linux, choose one of the following options depending on which distro you run.
 
 | Distro | Option |
