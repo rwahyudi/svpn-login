@@ -1,7 +1,14 @@
 
 # F5 SSLVPN Command-line client
+Forked from https://github.com/zrhoffman/svpn-login
 
-This project allows you to connect to an [F5 Networks](https://f5.com/) VPN server (BIG-IP APM) using the proprietary FastPPP protocol but without any graphical frontend.
+This project allows you to connect to LTU VPN on Linux. 
+LTU implemented MFA using Azure which require *Web Logon* component to work. 
+Unfortunately for linux user, Web logon mode is not available  -  see [K23653432](https://support.f5.com/csp/article/K23653432)
+
+Also keep in mind that VPN Linux is not officially supported. 
+
+
 
 ## Setup
 
@@ -15,45 +22,47 @@ If you are on Linux, choose one of the following options depending on which dist
 
 | Distro | Option |
 --- | ---
-| Ubuntu or Debian | https://[your-VPN-server]/public/download/linux_f5vpn.x86_64.deb |
-|  CentOS/Red Hat | https://[your-VPN-server]/public/download/linux_f5vpn.x86_64.rpm |
+| Ubuntu or Debian | https://connect1.latrobe.edu.au/public/download/linux_f5vpn.x86_64.deb |
+|  CentOS/Red Hat | https://connect1.latrobe.edu.au/public/download/linux_f5vpn.x86_64.rpm |
 |  Arch Linux | Install the [f5vpn](https://aur.archlinux.org/packages/f5vpn)<sup>AUR</sup> package |
+
+
 
 ### Acquire svpn-login
 
 ```
-$ git clone https://github.com/zrhoffman/svpn-login.git
+$ git clone https://github.com/rwahyudi/svpn-login.git
 $ cd svpn-login
 ```
 
-## Basic Usage (supports two-factor authentication):
+## Connecting 
 
 ```bash
-./svpn-login.py --sessionid=0123456789abcdef0123456789abcdef [hostname]
+./svpn-login.py --sessionid=0123456789abcdef0123456789abcdef connect1.latrobe.edu.au
 ```
 
-You can find the session ID by going to the VPN host in a web browser, logging in, and running this JavaScript in Developer Tools:
+**SessionID** is a unique ID that you need to extract everytime you connect. Please see below on how to extgract session ID. 
+
+If you get the following you are connected and you can put the process into background : 
+
+```bash 
+Getting params...
+Connecting to /Common/vpn_profile
+Got plugin params, execing vpn client
+```
+
+
+#### Extracting Session ID 
+You can find the session ID by using web browser and log into : https://connect1.latrobe.edu.au
+
+Once logged in,  you can extract the session ID. 
+
+In Chrome you can open  Developer Tools ( CTRL + SHIFT + I ) , and typed in the following in the Console
 
 ```javascript
 document.cookie.match(/MRHSession=(.*?); /)[1]
 ```
 
-If your organization does not use 2FA and you are able to log in with just your username and password:
-
-```bash
-./svpn-login.py [user@host]
-```
-
-## DNS and Routing
-
-- By default, the script will change your DNS servers to the ones provided by the VPN server. Skip this step by by passing the `--skip-dns` option.
-
-- By default, once connected, the script will route all traffic through the newly-created VPN network interface. Skip this step by passing the `--skip-routes` option (your VPN connection will be useless if this option is used, so only use it if you plan to set up the routing table yourself).
-
-## Other Info
-
-*[user@host] is saved for future invocations, so doesn't need to be specified on future invocations.*
+## Disconnect
 
 Use **CTRL-C** to exit.
-
-The application will save `[user@host]` and last session ID in ``~/.svpn-login.conf``. If no user was given, [host] will still be saved. In case of problems or for reset the session data simply remove that file.
